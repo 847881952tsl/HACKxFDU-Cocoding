@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>Share Code Manager Pager</title>
+  <meta name="description" content="A Manager Page for Share Code.">
+  <script src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.8.0.js"></script>
+  <style type="text/css" media="screen">
+    body {
+        overflow: hidden;
+    }
+    #editor {
+        margin: 0;
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+    }
+  </style>
+  <style>
+      .HK_ListC{
+          background-color: #C0C0C0;
+          height:80%;
+          width: auto;
+          font-size: 20pt;
+          line-height: 200%;
+      }
+      .HK_ListT{
+          font-size:30pt;
+          height: 9%;
+          width: auto;
+      }
+      .HK_List{
+          background-color: #708090;
+          height: 800px;
+          width: 20%;
+          top:11.99%;
+      }
+    </style> 
+    <style>
+        ul li{font-size: 14px}
+        input.t{border:1px solid#C0C0C0;background: #C0C0C0;width:100px;}
+        input.s{border:1px solid#369; background: #fff; width:10px;}
+    </style>
+</head>
+<body>
+    <div id="HK_ManT" style="height:10%; width:100% ; background-color :gray;" class="HK_ManT">
+    <div id="HK_ManTitle" class="HK_ManTitle">
+            <div title="重新命名" id="HK_projectT" class="HK_projectT">
+                
+                <span id="ProjectT_save">Rename</span>
+                <span id="ProjectT">(indexporject</span>
+                <span id="ProjectT_save">save)</span>
+                <span id="ProjectT_pic">
+                    <img src="ace-builds-master/rename.png" width="15" height="15">
+                </span>
+               </div>
+               <div id="HK_projextT_state" class="hide">
+                   <span>saving/choose the user mode:</span>
+                   <span>
+                   <button onclick="manager();">Manager</button>  
+                   </span>
+                   <span>
+                   <button onclick="groupmember();">Groupmember</button>
+                   </span>
+               </div>
+               
+             </div>
+    <div id="HK_ManSharePlace" class="HK_ManSharePlace">
+<!--
+            <div class="input_block" id="HK_input_filename">
+             <input type="text" id="shared_filename" placeholder="input the file name"/>
+            </div>
+             <div class="input_block" id="HK_ManPassword_invisible">
+             <input type="password" id="password_invisible" placeholder="Password">
+             </div>
+-->
+        </div>         
+    <div id="HK_ManMakeShare" class="HK_ManMakeShare">
+                 <span>
+                   <input id="HK_ManMakeShared" class="HK_ManMakeShared" type="button" value="Share this file">
+                   </span>
+                  
+                   <span >
+                       
+                       <input type="file" name="uploadfile" id="upload" />
+                       <input type="submit" name="Submit" onclick="uploadFile();" />
+                       
+                   </span>
+                  
+                   
+               </div>       
+    </div> 
+    <div id="fileList" class="HK_List" >
+        <div id="fileListT" class="HK_ListT" style="height: 5%;">
+            <h6>The File List</h6>
+        </div>
+        <div class="HK_ListC" id="fileListN">
+          
+             <ul id="listfile">
+              <li>
+              <span ondblclick="renameList(this)">
+                  index.text
+                  </span>
+                  
+                 <img src="ace-builds-master/download.png" height="10" width="10" alt="download" title="download" onclick="loadFile(this);"/>
+                 
+                 <img src="ace-builds-master/delete.PNG" height="10" width="10" alt="delete the file" title="delete a file" onclick="delList();"/>
+                 
+                 </li>
+             </ul>
+        
+             
+        </div>
+    </div>
+<pre id="editor" style="height:90%; width:78.79% ; top:11.99%; left:20.5%;">function foo(items) {
+    var i;
+    for (i = 0; i &lt; items.length; i++) {
+        alert("Ace Rocks " + items[i]);
+    }
+}</pre>
+<script src="ace-builds-master/src-noconflict/ace.js" type="text/javascript" charset="utf-8"></script>
+<script>
+    var editor = ace.edit("editor");
+    editor.setTheme("ace/theme/twilight");
+    editor.session.setMode("ace/mode/javascript");
+</script>
+<script name="promp" language="javascript" type="text/javascript">
+ var groupmember=function(){
+     var fn=prompt("input the filname:","");
+     if(!!fn){
+        
+        var pw1=prompt("input the password:","");
+         
+         if(pw1)
+             {
+                 alert("welcome! "+fn+" is opening!");
+             }else{
+                 fn=prompt("input the filname:","");
+                 pw1=prompt("input the password:","");
+                 alert("welcome! "+fn+" is opening!");
+             }
+        
+     }else{
+         
+         fn=prompt("try again!input the filname:","");
+     }
+     
+ }
+ 
+ var manager=function(){
+     var pw=prompt("input the password:"," ");
+     
+     if(!!pw){
+         alert("Welcome! Manager.");
+         
+     }else{
+         pw=prompt("try again! input the password:"," ");
+     }
+        
+ }
+ 
+        
+</script>
+    
+<script name="ListOperation" type="text/javascript">
+    var fileisupload=false;
+    var fileisdelete=false;
+    var fileiscreate=false;
+    var fileisrename=false;
+   
+    
+   
+    function addlist(filename){
+        var list=document.getElementById("listfile");
+        var row =list.childNodes.length;
+        var li= document.createElement("li");  
+        li.innerHTML=filename;
+        list.appendChild(li);
+    }
+    
+    function delList(filename){
+        var list=document.getElementById("listfile");
+        var obj=list.getElementsByTagName("li")
+        for(i in obj){
+            if(obj.innerHTML==filename){
+               list.removeChild(obj);
+            }
+        }
+    }
+               
+    
+ function renameList(element){
+    var oldhtml=element.innerHTML;
+    var newobj=document.createElement('input');
+    newobj.type='text';
+    newobj.onblur=function(){
+        element.innerHTML=this.value?this.value:oldhtml;
+        
+    }
+    element.innerHTML= '';
+    element.appendChild(newobj);
+    newobj.focus();
+}
+    
+    
+    function displayList(){
+        var list=document.getElementById("listfile");
+        var obj=list.getElementsByTagName("li")
+        for(i in obj){
+            i.onclick=function(){
+                var getFilecontent=function(fileinput,callback){
+                if(fileinput.file&&fileinput.file.length>0&&fileinput,files[0].size>0){
+                    var file=fileinput.files[0];
+                    addlist(file);
+                    if(window.FileReader){
+                        var reader =new FileReader();
+                        reader.onloadend=function(evt){
+                            if(evt.target.readyState==FileReader.DONE){
+                                callback(evt.target.result);
+                            }
+                        };
+                        reader.readAsText(file);
+                    }
+                 }
+
+               };
+                var ed =document.getElementById("editor");
+                this.innerHTML = gerFilecontent;
+          }
+        }
+    }
+    </script>
+<script name="FileOperation" type="text/javascript">
+//    var fileisupload=false;
+//    var fileisdelete=false;
+//    var fileiscreate=false;
+//    var fileisrename=false;
+//     function loadFile(filename, content){
+//        
+//        var alink=document.createElement('a');
+//        var blob=new Blob([content]);
+//        var evt=document.createEvent("HTMLEvents");
+//        alink.download=filename;
+//        alink.href=URL.createObjectURL(blob);
+//        alink.dispatchEvent(evt);
+//    }
+//    function uploadfile(){
+//        var getFilecontent=function(fileinput,callback){
+//            if(fileinput.file&&fileinput.file.length>0&&fileinput,files[0].size>0){
+//                var file=fileinput.files[0];
+//                var filename = file.val();
+//                if(window.FileReader){
+//                    var reader =new FileReader();
+//                    reader.onloadend=function(evt){
+//                        if(evt.target.readyState==FileReader.DONE){
+//                            callback(evt.target.result);
+//                        }
+//                    };
+//                    reader.readAsText(file);
+//                }
+//            }
+//            
+//        };
+//        document.getElementById('upload_pic').onclick=function(){
+//            var content=document.getElementById('content');
+//            getFilecontent(this,function(str){
+//                content.value=str;
+//                
+//            });
+//        }
+//          fileisupload=true;
+//        if(fileisupload==true){
+//        window.onload = function(){
+//        var list=document.getElementById("listfile");
+//        var row =list.childNodes.length;
+//        var li= document.createElement("li");  
+//        li.innerHTML=filename;
+//        list.appendChild(li);
+//        fileisupload=false;
+//      }
+//    }
+// }
+//    
+    </script>
+<script name="FileOperation_APIUsing" type="text/javascript">
+    var file_url=document.getElementById("upload").value;
+    function uploadFile(){
+    $.ajax({
+        url:"https://openapi.saicmotor.com/services/cloud/sds/v1.0.0/upload",
+        type:'POST',
+        dataType:'JSON',
+        data:{username:'ljyou001',password:'Lvjiayou1997',FUrl:"./file_url"},
+        success:function(data){
+            alert(data.FUrl);
+            console.log(data.FUrl);
+        }
+    });
+    $.post('https://openapi.saicmotor.com/services/cloud/sds/v1.0.0/upload',
+          {ID: 'ljyou001', password:'Lvjiayou1997',FUrl:"./filr_url"},
+           function(result){
+        console.log(result.Key);
+    }
+          
+          
+          );
+    }
+    
+    
+    
+    </script>
+   
+
+</body>
+</html>
